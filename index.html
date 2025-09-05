@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simulador de Negociação - Módulo III</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+    <header class="app-header">
+      <h1>Simulador de Negociação</h1>
+      <div class="header-actions">
+        <button id="btnRanking" class="ghost">🏆 Ranking</button>
+        <button id="btnInfo" class="ghost">ℹ️</button>
+      </div>
+    </header>
+
+    <!-- TELA INICIAL -->
+    <section id="screenStart" class="screen active">
+      <div class="panel">
+        <h2>Capacitação Digital — Missão III</h2>
+        <p class="muted">Responda chats com opções <strong>quase idênticas</strong> e <strong>pegadinhas</strong>. A diferença está em <em>detalhes</em>: nome do cliente, clareza, checklist completo e evitar promessas absolutas.</p>
+        <div class="form">
+          <label>Seu nome</label>
+          <input id="playerName" type="text" placeholder="Digite seu nome" maxlength="40" />
+        </div>
+        <div class="form">
+          <label>Escolha um avatar</label>
+          <div class="avatar-grid" id="avatarGrid"></div>
+        </div>
+        <div class="form inline">
+          <label class="inline"><input type="checkbox" id="chkHard"/> Modo Difícil (esconde dicas/feedback)</label>
+        </div>
+        <div class="form inline">
+          <label class="inline"><input type="checkbox" id="chkInsane"/> Modo Insano (oculta HUD e amplifica pegadinhas)</label>
+        </div>
+        <button id="btnStart" class="primary" disabled>Começar</button>
+      </div>
+
+      <div class="panel tips">
+        <h3>Como funciona — Regras do jogo</h3>
+        <ul>
+          <li><strong>Objetivo:</strong> concluir negociações aplicando as técnicas e maximizar a pontuação.</li>
+          <li><strong>Situações:</strong> 5 missões (Desemprego, Doença na família, Redução de renda, Outras dívidas e Segmentos).</li>
+          <li><strong>Como jogar:</strong> escolha entre <em>4–5 respostas muito parecidas</em>. Suas decisões alteram <em>Humor</em>, <em>Empatia</em>, <em>Clareza</em>, <em>Técnica</em>.</li>
+          <li><strong>Sucesso por missão:</strong> Humor ≥ <b>60</b> e Clareza ≥ <b>3</b>.</li>
+          <li><strong>Pontuação por missão:</strong> <code>Humor + (Empatia×5) + (Clareza×7) + (Técnica×6) + bônus 50</code> se cumprir o critério.</li>
+          <li><strong>Vitória/Derrota:</strong> cada missão vencida soma pontos; você pode não atingir/pular uma missão (sem game over antecipado).</li>
+          <li><strong>Modos:</strong> Difícil esconde dicas; Insano oculta HUD e aumenta penalidades.</li>
+          <li><strong>Pegadinhas:</strong> promessas <em>absolutas</em> ("garantido", "sempre", "100%"), fechamento <em>incompleto</em> (sem total/datas/nº), <em>jargão</em>/tom <em>impositivo</em>, falta de <em>personalização</em>, adiar <em>sem plano</em>.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- TELA DO JOGO -->
+    <section id="screenGame" class="screen">
+      <div class="hud" id="hud">
+        <div class="hud-left">
+          <span id="missionTitle">Missão</span>
+        </div>
+        <div class="hud-bars">
+          <div class="bar"><div class="bar-label">Humor</div><div class="bar-track"><div class="bar-fill" id="barMood"></div></div></div>
+          <div class="mini-metrics">
+            <span>🤝 Empatia: <b id="mEmp">0</b></span>
+            <span>🧭 Clareza: <b id="mCla">0</b></span>
+            <span>🧩 Técnica: <b id="mTec">0</b></span>
+          </div>
+        </div>
+        <div class="hud-right">
+          <button id="btnSkip" class="ghost small">⏭ Pular missão</button>
+        </div>
+      </div>
+      <div class="chat" id="chat"></div>
+      <div class="choices" id="choices"></div>
+    </section>
+
+    <!-- TELA FINAL -->
+    <section id="screenEnd" class="screen">
+      <div class="panel">
+        <h2>Resultado</h2>
+        <div id="summary"></div>
+        <div class="cta-row">
+          <button id="btnSaveScore" class="primary">Salvar no Ranking</button>
+          <button id="btnPlayAgain" class="ghost">Jogar novamente</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODAIS -->
+    <dialog id="modalRanking" class="modal">
+      <h3>Ranking Local</h3>
+      <ol id="rankingList" class="ranking"></ol>
+      <div class="cta-row">
+        <button id="btnClearRanking" class="danger">Limpar</button>
+        <button id="btnCloseRanking" class="primary">Fechar</button>
+      </div>
+    </dialog>
+
+    <dialog id="modalInfo" class="modal">
+      <h3>Diferencie alternativas similares</h3>
+      <ul>
+        <li>Use o <strong>nome do cliente</strong> e confirme <strong>entendimento</strong>.</li>
+        <li>Evite <strong>promessas absolutas</strong>, <strong>jargões</strong> e <strong>tom impositivo</strong>.</li>
+        <li><strong>Fechamento completo:</strong> valor total, nº de parcelas, datas (inclui 1º vencimento) e nº da negociação.</li>
+      </ul>
+      <div class="cta-row"><button id="btnCloseInfo" class="primary">Ok</button></div>
+    </dialog>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
