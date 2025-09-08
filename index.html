@@ -16,11 +16,10 @@
       </div>
     </header>
 
-    <!-- TELA INICIAL -->
     <section id="screenStart" class="screen active">
       <div class="panel">
         <h2>Capacitação Digital — Missão III</h2>
-        <p class="muted">Responda chats com opções <strong>quase idênticas</strong> e <strong>pegadinhas</strong>. A diferença está em <em>detalhes</em>: nome do cliente, clareza, checklist completo e evitar promessas absolutas.</p>
+        <p class="muted">Responda chats com opções <strong>quase idênticas</strong> e <strong>pegadinhas</strong>. O cliente responde <strong>contextualmente</strong> a cada frase. HUD e feedbacks sempre visíveis.</p>
         <div class="form">
           <label>Seu nome</label>
           <input id="playerName" type="text" placeholder="Digite seu nome" maxlength="40" />
@@ -29,36 +28,24 @@
           <label>Escolha um avatar</label>
           <div class="avatar-grid" id="avatarGrid"></div>
         </div>
-        <div class="form inline">
-          <label class="inline"><input type="checkbox" id="chkHard"/> Modo Difícil (esconde dicas/feedback)</label>
-        </div>
-        <div class="form inline">
-          <label class="inline"><input type="checkbox" id="chkInsane"/> Modo Insano (oculta HUD e amplifica pegadinhas)</label>
-        </div>
         <button id="btnStart" class="primary" disabled>Começar</button>
       </div>
-
       <div class="panel tips">
         <h3>Como funciona — Regras do jogo</h3>
         <ul>
           <li><strong>Objetivo:</strong> concluir negociações aplicando as técnicas e maximizar a pontuação.</li>
           <li><strong>Situações:</strong> 5 missões (Desemprego, Doença na família, Redução de renda, Outras dívidas e Segmentos).</li>
-          <li><strong>Como jogar:</strong> escolha entre <em>4–5 respostas muito parecidas</em>. Suas decisões alteram <em>Humor</em>, <em>Empatia</em>, <em>Clareza</em>, <em>Técnica</em>.</li>
+          <li><strong>Como jogar:</strong> escolha entre <em>4–5 respostas muito parecidas</em>. Suas decisões alteram <em>Humor</em>, <em>Empatia</em>, <em>Clareza</em> e <em>Técnica</em>.</li>
           <li><strong>Sucesso por missão:</strong> Humor ≥ <b>60</b> e Clareza ≥ <b>3</b>.</li>
           <li><strong>Pontuação por missão:</strong> <code>Humor + (Empatia×5) + (Clareza×7) + (Técnica×6) + bônus 50</code> se cumprir o critério.</li>
-          <li><strong>Vitória/Derrota:</strong> cada missão vencida soma pontos; você pode não atingir/pular uma missão (sem game over antecipado).</li>
-          <li><strong>Modos:</strong> Difícil esconde dicas; Insano oculta HUD e aumenta penalidades.</li>
-          <li><strong>Pegadinhas:</strong> promessas <em>absolutas</em> ("garantido", "sempre", "100%"), fechamento <em>incompleto</em> (sem total/datas/nº), <em>jargão</em>/tom <em>impositivo</em>, falta de <em>personalização</em>, adiar <em>sem plano</em>.</li>
+          <li><strong>Importante:</strong> As pegadinhas continuam ativas (promessas absolutas, fechamento incompleto, jargão/impositivo, adiar sem plano, etc.).</li>
         </ul>
       </div>
     </section>
 
-    <!-- TELA DO JOGO -->
     <section id="screenGame" class="screen">
       <div class="hud" id="hud">
-        <div class="hud-left">
-          <span id="missionTitle">Missão</span>
-        </div>
+        <div class="hud-left"><span id="missionTitle">Missão</span></div>
         <div class="hud-bars">
           <div class="bar"><div class="bar-label">Humor</div><div class="bar-track"><div class="bar-fill" id="barMood"></div></div></div>
           <div class="mini-metrics">
@@ -67,15 +54,12 @@
             <span>🧩 Técnica: <b id="mTec">0</b></span>
           </div>
         </div>
-        <div class="hud-right">
-          <button id="btnSkip" class="ghost small">⏭ Pular missão</button>
-        </div>
+        <div class="hud-right"><button id="btnSkip" class="ghost small">⏭ Pular missão</button></div>
       </div>
       <div class="chat" id="chat"></div>
       <div class="choices" id="choices"></div>
     </section>
 
-    <!-- TELA FINAL -->
     <section id="screenEnd" class="screen">
       <div class="panel">
         <h2>Resultado</h2>
@@ -87,7 +71,16 @@
       </div>
     </section>
 
-    <!-- MODAIS -->
+    <!-- Overlay de transição entre missões -->
+    <div id="transitionOverlay" aria-live="polite" aria-atomic="true">
+      <div class="overlay-card">
+        <div class="overlay-badge" id="ovBadge">Missão</div>
+        <h3 id="ovTitle">Próxima missão</h3>
+        <p class="muted" id="ovSubtitle">Preparando o próximo atendimento…</p>
+        <div class="overlay-progress"><div class="bar"></div></div>
+      </div>
+    </div>
+
     <dialog id="modalRanking" class="modal">
       <h3>Ranking Local</h3>
       <ol id="rankingList" class="ranking"></ol>
