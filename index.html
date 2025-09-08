@@ -1,105 +1,119 @@
-<!DOCTYPE html>
-<html lang="pt-br">
+<!doctype html>
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Simulador de Negociação - Módulo III</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Simulador de Negociação — Missão III</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div id="app">
-    <header class="app-header">
-      <h1>Simulador de Negociação</h1>
-      <div class="header-actions">
-        <button id="btnRanking" class="ghost">🏆 Ranking</button>
-        <button id="btnInfo" class="ghost">ℹ️</button>
-      </div>
-    </header>
+  <header class="app-header">
+    <h1>Simulador de Negociação — Módulo III</h1>
+    <div class="header-actions">
+      <button id="btnRanking" class="ghost">🏆 Ranking</button>
+      <button id="btnInfo" class="ghost">ℹ️</button>
+    </div>
+  </header>
 
-    <section id="screenStart" class="screen active">
-      <div class="panel">
-        <h2>Capacitação Digital — Missão III</h2>
-        <p class="muted">Responda chats com opções <strong>quase idênticas</strong> e <strong>pegadinhas</strong>. O cliente responde <strong>contextualmente</strong> a cada frase. HUD e feedbacks sempre visíveis.</p>
-        <div class="form">
-          <label>Seu nome</label>
-          <input id="playerName" type="text" placeholder="Digite seu nome" maxlength="40" />
-        </div>
-        <div class="form">
-          <label>Escolha um avatar</label>
-          <div class="avatar-grid" id="avatarGrid"></div>
-        </div>
+  <!-- START -->
+  <main id="screenStart" class="screen active">
+    <section class="panel">
+      <h2>Capacitação Digital — Missão III</h2>
+      <p>Responda chats com opções semelhantes e pegadinhas. O cliente reage às suas escolhas. HUD e feedbacks sempre visíveis.</p>
+      <div class="form">
+        <label for="playerName">Seu nome</label>
+        <input type="text" id="playerName" placeholder="Digite seu nome" />
+      </div>
+      <label>Escolha um avatar</label>
+      <div id="avatarGrid" class="avatar-grid" aria-label="Seleção de avatar"></div>
+
+      <label style="margin-top:14px">Escolha um segmento (usado na Missão 5)</label>
+      <div id="segmentGrid" class="segment-grid" role="group" aria-label="Seleção de segmento">
+        <!-- Renderizado via JS -->
+      </div>
+
+      <div class="cta-row" style="margin-top:12px">
         <button id="btnStart" class="primary" disabled>Começar</button>
       </div>
-      <div class="panel tips">
-        <h3>Como funciona — Regras do jogo</h3>
-        <ul>
-          <li><strong>Objetivo:</strong> concluir negociações aplicando as técnicas e maximizar a pontuação.</li>
-          <li><strong>Situações:</strong> 5 missões (Desemprego, Doença na família, Redução de renda, Outras dívidas e Segmentos).</li>
-          <li><strong>Como jogar:</strong> escolha entre <em>4–5 respostas muito parecidas</em>. Suas decisões alteram <em>Humor</em>, <em>Empatia</em>, <em>Clareza</em> e <em>Técnica</em>.</li>
-          <li><strong>Sucesso por missão:</strong> Humor ≥ <b>60</b> e Clareza ≥ <b>3</b>.</li>
-          <li><strong>Pontuação por missão:</strong> <code>Humor + (Empatia×5) + (Clareza×7) + (Técnica×6) + bônus 50</code> se cumprir o critério.</li>
-          <li><strong>Importante:</strong> As pegadinhas continuam ativas (promessas absolutas, fechamento incompleto, jargão/impositivo, adiar sem plano, etc.).</li>
-        </ul>
-      </div>
     </section>
 
-    <section id="screenGame" class="screen">
-      <div class="hud" id="hud">
-        <div class="hud-left"><span id="missionTitle">Missão</span></div>
-        <div class="hud-bars">
-          <div class="bar"><div class="bar-label">Humor</div><div class="bar-track"><div class="bar-fill" id="barMood"></div></div></div>
-          <div class="mini-metrics">
-            <span>🤝 Empatia: <b id="mEmp">0</b></span>
-            <span>🧭 Clareza: <b id="mCla">0</b></span>
-            <span>🧩 Técnica: <b id="mTec">0</b></span>
-          </div>
+    <section class="panel tips">
+      <h3>Como funciona — Regras do jogo</h3>
+      <ul>
+        <li>Objetivo: concluir negociações e maximizar a pontuação.</li>
+        <li>Situações: 5 missões (Desemprego, Doença na família, Redução de renda, Outras dívidas e Segmentos).</li>
+        <li>Suas decisões alteram Humor, Empatia, Clareza e Técnica.</li>
+        <li>Sucesso por missão: Humor ≥ 60 e Clareza ≥ 3.</li>
+        <li>Pontuação: Humor + (Emp×5) + (Cla×7) + (Tec×6) + bônus 50 quando atingir o critério.</li>
+      </ul>
+    </section>
+  </main>
+
+  <!-- GAME -->
+  <main id="screenGame" class="screen">
+    <div id="hud" class="hud" style="display:none">
+      <div class="hud-bars">
+        <div class="bar">
+          <div class="bar-label">Humor</div>
+          <div class="bar-track"><div id="barMood" class="bar-fill"></div></div>
         </div>
-        <div class="hud-right"><button id="btnSkip" class="ghost small">⏭ Pular missão</button></div>
+        <div class="mini-metrics">🤝 Empatia: <strong id="mEmp">0</strong></div>
+        <div class="mini-metrics">🧭 Clareza: <strong id="mCla">0</strong></div>
+        <div class="mini-metrics">🧠 Técnica: <strong id="mTec">0</strong></div>
       </div>
-      <div class="chat" id="chat"></div>
-      <div class="choices" id="choices"></div>
-    </section>
-
-    <section id="screenEnd" class="screen">
-      <div class="panel">
-        <h2>Resultado</h2>
-        <div id="summary"></div>
-        <div class="cta-row">
-          <button id="btnSaveScore" class="primary">Salvar no Ranking</button>
-          <button id="btnPlayAgain" class="ghost">Jogar novamente</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- Overlay de transição entre missões -->
-    <div id="transitionOverlay" aria-live="polite" aria-atomic="true">
-      <div class="overlay-card">
-        <div class="overlay-badge" id="ovBadge">Missão</div>
-        <h3 id="ovTitle">Próxima missão</h3>
-        <p class="muted" id="ovSubtitle">Preparando o próximo atendimento…</p>
-        <div class="overlay-progress"><div class="bar"></div></div>
-      </div>
+      <button id="btnSkip" class="ghost small">⏭️ Pular missão</button>
     </div>
 
-    <dialog id="modalRanking" class="modal">
-      <h3>Ranking Local</h3>
-      <ol id="rankingList" class="ranking"></ol>
-      <div class="cta-row">
-        <button id="btnClearRanking" class="danger">Limpar</button>
-        <button id="btnCloseRanking" class="primary">Fechar</button>
-      </div>
-    </dialog>
+    <section class="panel">
+      <h2 id="missionTitle">Missão</h2>
+      <div id="chat" class="chat" role="log" aria-live="polite"></div>
+      <div id="choices" class="choices" role="group" aria-label="Escolhas"></div>
+    </section>
+  </main>
 
-    <dialog id="modalInfo" class="modal">
-      <h3>Diferencie alternativas similares</h3>
-      <ul>
-        <li>Use o <strong>nome do cliente</strong> e confirme <strong>entendimento</strong>.</li>
-        <li>Evite <strong>promessas absolutas</strong>, <strong>jargões</strong> e <strong>tom impositivo</strong>.</li>
-        <li><strong>Fechamento completo:</strong> valor total, nº de parcelas, datas (inclui 1º vencimento) e nº da negociação.</li>
-      </ul>
-      <div class="cta-row"><button id="btnCloseInfo" class="primary">Ok</button></div>
-    </dialog>
+  <!-- END -->
+  <main id="screenEnd" class="screen">
+    <section class="panel">
+      <h3>Resultado</h3>
+      <div id="summary"></div>
+      <div class="cta-row">
+        <button id="btnSaveScore" class="primary">Salvar no Ranking</button>
+        <button id="btnPlayAgain" class="ghost">Jogar novamente</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- Ranking -->
+  <dialog id="modalRanking" class="modal" aria-labelledby="rkTitle">
+    <h4 id="rkTitle">Ranking Local</h4>
+    <ol id="rankingList" class="ranking"></ol>
+    <div class="cta-row">
+      <button id="btnClearRanking" class="danger">Limpar</button>
+      <button id="btnCloseRanking" class="ghost">Fechar</button>
+    </div>
+  </dialog>
+
+  <!-- Info -->
+  <dialog id="modalInfo" class="modal">
+    <h4>Diferencie alternativas similares</h4>
+    <ul>
+      <li>Use o nome do cliente e confirme entendimento.</li>
+      <li>Evite promessas absolutas/jargões/tom impositivo.</li>
+      <li>Fechamento completo: total, parcelas, datas (inclui 1º venc.) e nº da negociação.</li>
+    </ul>
+    <div class="cta-row"><button id="btnCloseInfo" class="ghost">Ok</button></div>
+  </dialog>
+
+  <!-- Overlay transição -->
+  <div id="transitionOverlay" aria-hidden="true">
+    <div class="overlay-card">
+      <span id="ovBadge" class="overlay-badge"></span>
+      <h3 id="ovTitle"></h3>
+      <p id="ovSubtitle" class="muted"></p>
+      <div class="overlay-progress"><div class="bar"></div></div>
+    </div>
   </div>
-  <script src="script.js"></script>
+
+  <script src="script.js" defer></script>
 </body>
 </html>
