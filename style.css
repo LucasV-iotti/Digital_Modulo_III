@@ -1,4 +1,4 @@
-* { box-sizing: border-box; }
+*{ box-sizing:border-box; }
 :root{ --bg:#0f172a; --panel:#111827; --text:#e5e7eb; --muted:#9ca3af; --primary:#22c55e; --danger:#ef4444; --bubble-client:#1f2937; --bubble-agent:#14532d; --accent:#38bdf8; }
 body{ margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial; background: radial-gradient(1200px 800px at 80% 0%, #0b1020, #060911), var(--bg); color:var(--text); }
 .app-header{ display:flex; align-items:center; justify-content:space-between; padding:16px 20px; border-bottom:1px solid #1f2937; background: rgba(0,0,0,.25); position: sticky; top:0; z-index:5; }
@@ -15,6 +15,11 @@ input[type=text]{ width:100%; padding:12px 14px; border-radius:10px; border:1px 
 .avatar-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(64px,1fr)); gap:10px; }
 .avatar{ display:flex; align-items:center; justify-content:center; height:64px; font-size:28px; border:2px solid #374151; border-radius:12px; cursor:pointer; user-select:none; }
 .avatar.selected{ outline:2px solid var(--accent); background:#0b1221; }
+
+.segment-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(140px,1fr)); gap:10px; margin-top:6px; }
+.segment{ padding:10px 12px; border-radius:10px; border:1px solid #374151; background:#0b1221; color:var(--text); cursor:pointer; text-align:center; }
+.segment.selected{ outline:2px solid var(--accent); background:#0c172a; }
+
 .primary, .ghost, .danger{ cursor:pointer; border-radius:10px; padding:10px 14px; border:1px solid transparent; }
 .primary{ background:var(--primary); color:#001b06; font-weight:700; }
 .ghost{ background:transparent; color:var(--text); border-color:#374151; }
@@ -41,8 +46,6 @@ input[type=text]{ width:100%; padding:12px 14px; border-radius:10px; border:1px 
 .modal{ border:none; background:var(--panel); color:var(--text); border-radius:12px; padding:16px 18px; width:min(560px, 92vw); }
 .modal::backdrop{ background: rgba(0,0,0,.5); }
 .cta-row{ display:flex; gap:10px; flex-wrap:wrap; }
-
-/* === Overlay de transição === */
 #transitionOverlay{ position: fixed; inset:0; display:flex; align-items:center; justify-content:center; pointer-events:none; opacity:0; transform: scale(1.02); transition: opacity .35s ease, transform .35s ease; background: radial-gradient(800px 500px at 80% 0%, rgba(56,189,248,.10), transparent 40%); z-index:50; }
 #transitionOverlay.show{ opacity:1; transform: none; }
 .overlay-card{ background: linear-gradient(180deg, rgba(255,255,255,.06), transparent 35%), #0b1221; border:1px solid #1f2937; border-radius:16px; padding:20px 22px; width:min(560px, 92vw); box-shadow: 0 8px 40px rgba(0,0,0,.35); animation: cardIn .4s ease; }
@@ -51,7 +54,5 @@ input[type=text]{ width:100%; padding:12px 14px; border-radius:10px; border:1px 
 .overlay-progress{ height:6px; background:#0a0f1d; border:1px solid #1f2937; border-radius:999px; overflow:hidden; margin-top:14px; }
 .overlay-progress .bar{ height:100%; width:0%; background:linear-gradient(90deg, #22c55e, #38bdf8, #22c55e); animation: loadBar 1.6s ease forwards; }
 @keyframes loadBar{ from{ width:0% } to{ width:100% } }
-
-/* Linha de brilho animado no topo */
 #transitionOverlay.show::before{ content:""; position:absolute; top:0; left:-20%; right:-20%; height:3px; background: linear-gradient(90deg, transparent, #38bdf8, #22c55e, transparent); filter: blur(.6px); animation: sweep 1.6s ease; }
 @keyframes sweep{ from{ transform: translateX(-20%);} to{ transform: translateX(20%);} }
